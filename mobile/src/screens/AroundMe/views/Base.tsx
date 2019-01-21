@@ -132,7 +132,7 @@ export class Base extends React.Component<{}, IState> {
             category,
             position: { latitude, longitude },
         });
-        this.setState({ isLoading: false });
+
         if (!response || response.length === 0) {
             this.setState({ isLoading: false });
 
@@ -143,7 +143,7 @@ export class Base extends React.Component<{}, IState> {
     };
 
     categoryChange = async (value: number) => {
-        await this.setState({
+        this.setState({
             selectedCategory: value,
             category: value,
             isLoading: true,
@@ -153,7 +153,8 @@ export class Base extends React.Component<{}, IState> {
     };
 
     distanceChange = async (value: number) => {
-        await this.setState({ distance: value, isLoading: true });
+        this.setState({ distance: value, isLoading: true });
+
         await this.getListings();
     };
 
