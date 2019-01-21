@@ -214,7 +214,7 @@ export class Base extends React.Component<any, IState> {
     };
 
     handleNavigation = (data: any) => {
-        NavigationService.navigate('Result', { ...data });
+        NavigationService.navigate('Listing', { ...data });
     };
 
     fetchCategories = async () => {

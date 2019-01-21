@@ -7,10 +7,10 @@ import TabBarIcon from '../../components/TabBarIcon';
 
 export const AroundMeStack = createStackNavigator(
     {
-        AroundMeScreen: {
+        Base: {
             getScreen: () => require('./AroundMe').default,
         },
-        AroundMeListing: {
+        Listing: {
             getScreen: () => require('./AroundMeListing').default,
         },
     },

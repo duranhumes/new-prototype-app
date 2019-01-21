@@ -41,7 +41,7 @@ export async function makeListingsRequest(
 export async function makeCategoriesRequest() {
     return checkAPIHealth(async () => {
         const [response, responseErr] = await promiseWrapper(
-            r.get(`${categoriesEndpoint}`)
+            r.get(categoriesEndpoint)
         );
         if (responseErr) {
             console.error(responseErr);
@@ -49,6 +49,6 @@ export async function makeCategoriesRequest() {
             return [];
         }
 
-        return response.data.data;
+        return response.data.data.results;
     });
 }

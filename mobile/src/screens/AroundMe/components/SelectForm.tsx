@@ -1,28 +1,16 @@
 import * as React from 'react';
-import { Form } from 'native-base';
-import { Dimensions, StyleSheet } from 'react-native';
+import { View, Dimensions, StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
 const VIEWPORT_WIDTH = Dimensions.get('window').width;
 
 interface ISelectForm {
     categories: string[];
-    categoryChange: (...args: any) => {};
+    categoryChange: (...args: any) => any;
     selectedCategory: number;
     distance: number;
-    distanceChange: (...args: any) => {};
+    distanceChange: (...args: any) => any;
 }
-
-const styles = StyleSheet.create({
-    filters: {
-        width: VIEWPORT_WIDTH,
-        flexDirection: 'row',
-        backgroundColor: 'rgba(252, 253, 253, 0.9)',
-        opacity: 0.6,
-        elevation: 2,
-        zIndex: 10,
-    },
-});
 
 export class SelectForm extends React.Component<ISelectForm, any> {
     inputRefs: any;
@@ -31,6 +19,7 @@ export class SelectForm extends React.Component<ISelectForm, any> {
 
         this.inputRefs = {};
     }
+
     render() {
         const {
             categories,
@@ -40,54 +29,14 @@ export class SelectForm extends React.Component<ISelectForm, any> {
             distanceChange,
         } = this.props;
         return (
-            <Form style={styles.filters}>
-                {/* <Picker
-                    mode="dropdown"
-                    iosHeader="Select a category"
-                    placeholder="Select a category"
-                    iosIcon={<Icon.Ionicons name="ios-arrow-down" />}
-                    headerBackButtonText="x"
-                    // headerBackButtonText={
-                    //     <Icon.Ionicons name="ios-close" style={{ fontSize: 38 }} />
-                    // }
-                    style={{
-                        width: VIEWPORT_WIDTH / 1.75,
-                        marginRight: 10,
-                    }}
-                    selectedValue={selectedCategory}
-                    onValueChange={categoryChange}>
-                    {categories.map((category: any) => {
-                        return (
-                            <Picker.Item
-                                key={category.id}
-                                label={category.title}
-                                value={category.id}
-                            />
-                        );
-                    })}
-                </Picker>
-                <Picker
-                    mode="dropdown"
-                    iosHeader="Select distance"
-                    placeholder="Select distance"
-                    iosIcon={<Icon.Ionicons name="ios-arrow-down" />}
-                    headerBackButtonText="x"
-                    style={{ width: VIEWPORT_WIDTH / 2.6, marginLeft: 10 }}
-                    selectedValue={distance}
-                    onValueChange={distanceChange}>
-                    <Picker.Item label="1 Mile" value={1} />
-                    <Picker.Item label="3 Miles" value={3} />
-                    <Picker.Item label="5 Miles" value={5} />
-                    <Picker.Item label="10 Miles" value={10} />
-                </Picker> */}
+            <View style={styles.filters}>
                 <RNPickerSelect
                     placeholder={{
-                        label: 'Select a distance...',
+                        label: 'Select a category...',
                         value: null,
-                        color: '#9EA0A4',
                     }}
-                    items={categories.map(({ id, title }: any) => ({
-                        label: title,
+                    items={categories.map(({ id, category }: any) => ({
+                        label: category,
                         value: id,
                     }))}
                     onValueChange={categoryChange}
@@ -96,9 +45,9 @@ export class SelectForm extends React.Component<ISelectForm, any> {
                         this.inputRefs.name.focus();
                     }}
                     onDownArrow={() => {
-                        this.inputRefs.picker2.togglePicker();
+                        this.inputRefs.picker.togglePicker();
                     }}
-                    style={{ width: VIEWPORT_WIDTH / 1.75, marginLeft: 10 }}
+                    style={{ width: VIEWPORT_WIDTH }}
                     ref={(el: any) => {
                         this.inputRefs.picker = el;
                     }}
@@ -108,7 +57,6 @@ export class SelectForm extends React.Component<ISelectForm, any> {
                     placeholder={{
                         label: 'Select a distance...',
                         value: null,
-                        color: '#9EA0A4',
                     }}
                     items={[
                         { label: '1 Mile', value: 1 },
@@ -124,12 +72,23 @@ export class SelectForm extends React.Component<ISelectForm, any> {
                     onDownArrow={() => {
                         this.inputRefs.picker2.togglePicker();
                     }}
-                    style={{ width: VIEWPORT_WIDTH / 2.6, marginLeft: 10 }}
+                    style={{ width: VIEWPORT_WIDTH }}
                     ref={(el: any) => {
                         this.inputRefs.picker = el;
                     }}
                 />
-            </Form>
+            </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    filters: {
+        width: VIEWPORT_WIDTH,
+        flexDirection: 'row',
+        backgroundColor: 'rgba(252, 253, 253, 0.9)',
+        opacity: 0.6,
+        elevation: 2,
+        zIndex: 10,
+    },
+});
