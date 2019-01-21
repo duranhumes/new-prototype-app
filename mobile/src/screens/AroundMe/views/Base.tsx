@@ -22,7 +22,6 @@ import {
     VIEWPORT_WIDTH,
 } from '../constants';
 import { makeListingsRequest, makeCategoriesRequest } from '../functions';
-import { promiseWrapper } from '../../../utils';
 
 interface IState {
     markers: any[];
@@ -125,15 +124,13 @@ export class Base extends React.Component<any, IState> {
             position: { latitude, longitude },
         } = this.state;
 
-        const [listings, listingsErr] = await promiseWrapper(
-            makeListingsRequest({
-                distance,
-                category,
-                position: { latitude, longitude },
-            })
-        );
+        const listings = await makeListingsRequest({
+            distance,
+            category,
+            position: { latitude, longitude },
+        });
 
-        if (!listings || listings.length === 0 || listingsErr) {
+        if (!listings || listings.length === 0) {
             this.setState({ isLoading: false });
 
             return Alert.alert('Nothing found within those search parameters');
@@ -221,14 +218,7 @@ export class Base extends React.Component<any, IState> {
     };
 
     fetchCategories = async () => {
-        const [categories, categoriesErr] = await promiseWrapper(
-            makeCategoriesRequest()
-        );
-        if (categoriesErr) {
-            this.setState({ isLoading: false });
-
-            return;
-        }
+        const categories = await makeCategoriesRequest();
 
         this.setState({ categories });
     };
