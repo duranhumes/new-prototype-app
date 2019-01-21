@@ -75,6 +75,9 @@ export class ListingRepository implements IRepository<ListingsEntity> {
                 .metadata;
             const tableName = entityMetadata.tableName;
             const pivotTableName = 'items_to_categories';
+            const columnNames = Object.keys(entityMetadata.propertiesMap).join(
+                ', '
+            );
             const { lat, lng } = coords;
             const miles = 3959;
             const queryParams: any = [lat, lng, lat, dist];
@@ -97,10 +100,7 @@ export class ListingRepository implements IRepository<ListingsEntity> {
                 }
             }
 
-            // Get column names
-            const keys = Object.keys(entityMetadata.propertiesMap).join(', ');
-
-            const query = `SELECT ${keys}, (${miles} * ACOS(COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(latitude)))) AS \`distance\` FROM \`${tableName}\` ${listingIdsQuery} HAVING \`distance\` <= ? ORDER BY \`distance\` ASC LIMIT 75`;
+            const query = `SELECT ${columnNames}, (${miles} * ACOS(COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(latitude)))) AS \`distance\` FROM \`${tableName}\` ${listingIdsQuery} HAVING \`distance\` <= ? ORDER BY \`distance\` ASC LIMIT 75`;
 
             const [listings, listingsErr] = await promiseWrapper(
                 this.manager.query(query, queryParams)
