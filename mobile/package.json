@@ -1,0 +1,83 @@
+{
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+        "start": "expo start",
+        "android": "expo start --android",
+        "ios": "expo start --ios",
+        "eject": "expo eject",
+        "test": "npx jest --watchAll",
+        "postinstall": "yarn prettier && yarn lint",
+        "lint": "npx tslint --project tsconfig.json",
+        "lint:fix": "npx tslint --project tsconfig.json --fix",
+        "prettier": "npx prettier --write 'src/**/*.{ts,js,json}'"
+    },
+    "dependencies": {
+        "@expo/samples": "2.1.1",
+        "axios": "^0.18.0",
+        "expo": "^32.0.1",
+        "native-base": "^2.10.0",
+        "react": "16.5.0",
+        "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+        "react-native-design-utility": "^0.0.30",
+        "react-native-maps": "^0.23.0",
+        "react-native-phone-call": "^1.0.9",
+        "react-native-picker-select": "^5.2.2",
+        "react-navigation": "^3.1.0",
+        "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "@types/expo": "^31.0.8",
+        "@types/jest": "^23.3.13",
+        "@types/node": "^10.12.18",
+        "@types/react": "^16.7.20",
+        "@types/react-native": "^0.57.29",
+        "@types/react-navigation": "^3.0.1",
+        "@types/react-test-renderer": "^16.0.3",
+        "@types/uuid": "^3.4.4",
+        "jest": "^23.6.0",
+        "jest-expo": "^32.0.0",
+        "prettier": "^1.15.3",
+        "react-test-renderer": "^16.7.0",
+        "ts-jest": "^23.10.5",
+        "tslint": "^5.12.1",
+        "tslint-config-airbnb": "^5.11.1",
+        "tslint-config-prettier": "^1.17.0",
+        "typescript": "^3.2.4"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.(ts,js,json)": [
+            "yarn prettier",
+            "yarn lint:fix",
+            "git add"
+        ]
+    },
+    "private": true,
+    "jest": {
+        "preset": "jest-expo",
+        "transform": {
+            "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "testMatch": [
+            "**/__tests__/**/*.ts?(x)",
+            "**/?(*.)+(spec|test).ts?(x)"
+        ],
+        "moduleFileExtensions": [
+            "js",
+            "ts",
+            "tsx"
+        ],
+        "globals": {
+            "ts-jest": {
+                "tsConfig": {
+                    "jsx": "react"
+                }
+            }
+        }
+    }
+}
