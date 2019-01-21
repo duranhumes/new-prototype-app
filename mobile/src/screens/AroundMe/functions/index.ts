@@ -1,19 +1,18 @@
 import checkAPIHealth from '../../../utils/checkAPIHealth';
-import { listingsEndpoint } from '../../../api/Endpoints';
+import { listingsEndpoint, categoriesEndpoint } from '../../../api/Endpoints';
 import { promiseWrapper } from '../../../utils';
 import request from '../../../utils/request';
+
+const r = request();
 
 interface IListingRequestData {
     distance: number;
     category?: number;
     position: { latitude: number; longitude: number };
 }
-
-const r = request();
-
 export async function makeListingsRequest(
     listingRequestData: IListingRequestData
-): Promise<any[]> {
+) {
     return checkAPIHealth(async () => {
         try {
             const {
@@ -29,11 +28,29 @@ export async function makeListingsRequest(
 
             const url = `${listingsEndpoint}/distance?${categoryStr}distance=${distance}&coords=${latitude},${longitude}`;
             // const url = `${listingsEndpoint}/distance?${categoryStr}distance=${distance}&coords=25.025885,-78.035889`;
-            const [response, responseErr] = await promiseWrapper<any>(
-                r.get(url)
+            const [response, responseErr] = await promiseWrapper(r.get(url));
+            if (responseErr) {
+                console.error(responseErr);
+
+                return [];
+            }
+
+            return response.data.data;
+        } catch (error) {
+            console.error({ error });
+        }
+    });
+}
+
+export async function makeCategoriesRequest() {
+    return checkAPIHealth(async () => {
+        try {
+            const [response, responseErr] = await promiseWrapper(
+                r.get(`${categoriesEndpoint}`)
             );
             if (responseErr) {
                 console.error(responseErr);
+
                 return [];
             }
 

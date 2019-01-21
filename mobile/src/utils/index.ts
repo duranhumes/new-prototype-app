@@ -61,9 +61,9 @@ export function pick(obj: object, keys: string[]) {
 interface CustomError extends Error {
     code: string | number;
 }
-export async function promiseWrapper<T, E = CustomError>(
-    promise: Promise<T>
-): Promise<[T | undefined, undefined | E]> {
+export async function promiseWrapper<E = CustomError>(
+    promise: Promise<any>
+): Promise<[any | undefined, undefined | E]> {
     try {
         return [await promise, undefined];
     } catch (e) {

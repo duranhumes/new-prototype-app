@@ -1,21 +1,19 @@
 import * as React from 'react';
 import {
+    View,
     StyleSheet,
     Text,
     Animated,
     TouchableOpacity,
     Alert,
 } from 'react-native';
-import { Box } from 'react-native-design-utility';
 import { Location } from 'expo';
 import { Region } from 'react-native-maps';
-import call from 'react-native-phone-call';
+import RNPhoneCall from 'react-native-phone-call';
 
 import { Spinner } from '../../../components';
 import { NavigationService } from '../../../services/NavigationService';
 import { SelectForm, Map, CardList } from '../components';
-import { categoriesEndpoint } from '../../../api/Endpoints';
-import request from '../../../utils/request';
 import {
     defaultLatLng,
     LATITUDE_DELTA,
@@ -23,8 +21,8 @@ import {
     CARD_WIDTH,
     VIEWPORT_WIDTH,
 } from '../constants';
+import { makeListingsRequest, makeCategoriesRequest } from '../functions';
 import { promiseWrapper } from '../../../utils';
-import { makeListingsRequest } from '../utils';
 
 interface IState {
     markers: any[];
@@ -52,9 +50,7 @@ const GEOLOCATION_OPTIONS = {
     maximumAge: 1000,
 };
 
-const r = request();
-
-export class Base extends React.Component<{}, IState> {
+export class Base extends React.Component<any, IState> {
     index: number;
     animation: Animated.Value;
     regionTimeout: any;
@@ -86,20 +82,22 @@ export class Base extends React.Component<{}, IState> {
     animateToListing = () => {
         // Detect when scrolling has stopped then animate and debounce the event listener
         this.animation.addListener(({ value }) => {
-            let index = Math.floor(value / CARD_WIDTH + 0.1);
-            if (index >= this.state.markers.length) {
-                index = this.state.markers.length - 1;
+            let currentCardIndex = Math.floor(value / CARD_WIDTH + 0.1);
+            if (currentCardIndex >= this.state.markers.length) {
+                currentCardIndex = this.state.markers.length - 1;
             }
 
-            if (index <= 0) {
-                index = 0;
+            if (currentCardIndex <= 0) {
+                currentCardIndex = 0;
             }
 
             clearTimeout(this.regionTimeout);
             this.regionTimeout = setTimeout(() => {
-                if (this.index !== index) {
-                    this.index = index;
-                    const { latitude, longitude } = this.state.markers[index];
+                if (this.index !== currentCardIndex) {
+                    this.index = currentCardIndex;
+                    const { latitude, longitude } = this.state.markers[
+                        currentCardIndex
+                    ];
                     const coordinate = { latitude, longitude };
                     this.map.animateToRegion(
                         {
@@ -111,7 +109,7 @@ export class Base extends React.Component<{}, IState> {
                     );
                 }
                 clearTimeout(this.regionTimeout);
-            }, 10);
+            }, 15);
         });
 
         Location.watchPositionAsync(
@@ -127,19 +125,21 @@ export class Base extends React.Component<{}, IState> {
             position: { latitude, longitude },
         } = this.state;
 
-        const response = await makeListingsRequest({
-            distance,
-            category,
-            position: { latitude, longitude },
-        });
+        const [listings, listingsErr] = await promiseWrapper(
+            makeListingsRequest({
+                distance,
+                category,
+                position: { latitude, longitude },
+            })
+        );
 
-        if (!response || response.length === 0) {
+        if (!listings || listings.length === 0 || listingsErr) {
             this.setState({ isLoading: false });
 
-            return Alert.alert('Nothing found with those parameters');
+            return Alert.alert('Nothing found within those search parameters');
         }
 
-        this.setState({ markers: response, isLoading: false });
+        this.setState({ markers: listings, isLoading: false });
     };
 
     categoryChange = async (value: number) => {
@@ -167,8 +167,7 @@ export class Base extends React.Component<{}, IState> {
                     longitude,
                 };
                 const region = {
-                    latitude,
-                    longitude,
+                    ...position,
                     latitudeDelta: LATITUDE_DELTA,
                     longitudeDelta: LONGITUDE_DELTA,
                 };
@@ -211,7 +210,7 @@ export class Base extends React.Component<{}, IState> {
 
     handleCall = (phoneNumber: string) => {
         console.log(phoneNumber);
-        call({
+        RNPhoneCall({
             phoneNumber,
             prompt: true,
         }).catch(console.error);
@@ -222,24 +221,22 @@ export class Base extends React.Component<{}, IState> {
     };
 
     fetchCategories = async () => {
-        const [response, responseErr] = await promiseWrapper<any>(
-            r.get(`${categoriesEndpoint}`)
+        const [categories, categoriesErr] = await promiseWrapper(
+            makeCategoriesRequest()
         );
-        if (responseErr) {
-            console.error(responseErr);
+        if (categoriesErr) {
+            this.setState({ isLoading: false });
 
-            return Alert.alert('Something went wrong, please try again');
+            return;
         }
-
-        const categories = await response.data.results;
 
         this.setState({ categories });
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         this.findMe();
         this.animateToListing();
-        // await this.fetchCategories();
+        await this.fetchCategories();
     }
 
     render() {
@@ -264,7 +261,7 @@ export class Base extends React.Component<{}, IState> {
         });
 
         return (
-            <Box style={styles.container}>
+            <View style={styles.container}>
                 {this.state.isLoading && (
                     <Spinner
                         visible={this.state.isLoading}
@@ -299,7 +296,7 @@ export class Base extends React.Component<{}, IState> {
                     handleNavigation={this.handleNavigation}
                     handleCall={this.handleCall}
                 />
-            </Box>
+            </View>
         );
     }
 }
