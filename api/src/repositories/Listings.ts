@@ -80,9 +80,6 @@ export class ListingRepository implements IRepository<ListingsEntity> {
             const queryParams: any = [lat, lng, lat, dist];
 
             let listingIdsQuery = '';
-            // This is fragile check for the first
-            // item in the array, supposedly if that
-            // value exists it has non null values
             if (!!categoryId) {
                 const [listingIdsFromCategory] = await promiseWrapper(
                     this.manager.query(
