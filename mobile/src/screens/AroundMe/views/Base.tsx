@@ -131,7 +131,7 @@ export class Base extends React.Component<any, IState> {
         });
 
         if (!listings || listings.length === 0) {
-            this.setState({ isLoading: false });
+            this.setState({ markers: [], isLoading: false });
 
             return Alert.alert('Nothing found within those search parameters');
         }
@@ -139,20 +139,25 @@ export class Base extends React.Component<any, IState> {
         this.setState({ markers: listings, isLoading: false });
     };
 
-    categoryChange = async (value: number) => {
-        this.setState({
-            selectedCategory: value,
-            category: value,
-            isLoading: true,
-        });
+    categoryChange = (value: number) => {
+        this.setState(
+            {
+                selectedCategory: value,
+                category: value,
+                isLoading: true,
+            },
+            async () => {
+                await this.getListings();
+            }
+        );
 
-        await this.getListings();
+        console.log({ value });
     };
 
     distanceChange = async (value: number) => {
-        this.setState({ distance: value, isLoading: true });
-
-        await this.getListings();
+        this.setState({ distance: value, isLoading: true }, async () => {
+            await this.getListings();
+        });
     };
 
     findMe = () => {
