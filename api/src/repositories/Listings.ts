@@ -68,29 +68,42 @@ export class ListingRepository implements IRepository<ListingsEntity> {
     findByDistance = (
         coords: { lat: number; lng: number },
         dist: number = 10,
-        categoryIds: number[] = []
+        categoryId: number
     ) => {
         return new Promise<ListingsEntity[]>(async (resolve, reject) => {
             const entityMetadata = this.manager.getRepository(ListingsEntity)
                 .metadata;
             const tableName = entityMetadata.tableName;
+            const pivotTableName = 'items_to_categories';
             const { lat, lng } = coords;
             const miles = 3959;
             const queryParams: any = [lat, lng, lat, dist];
 
-            let byCategoryIdQuery = '';
+            let listingIdsQuery = '';
             // This is fragile check for the first
             // item in the array, supposedly if that
             // value exists it has non null values
-            if (!!categoryIds[0]) {
-                byCategoryIdQuery = `WHERE \`categories\` IN (?)`;
-                queryParams.push(categoryIds);
+            if (!!categoryId) {
+                const [listingIdsFromCategory] = await promiseWrapper(
+                    this.manager.query(
+                        `SELECT item AS listingId FROM \`${pivotTableName}\` WHERE \`category\` = ?`,
+                        [categoryId]
+                    )
+                );
+
+                if (!isEmpty(listingIdsFromCategory)) {
+                    const listingIds = `${listingIdsFromCategory.map(
+                        (v: any) => v.listingId
+                    )}`;
+                    listingIdsQuery = `WHERE \`id\` IN (?)`;
+                    queryParams.push(listingIds);
+                }
             }
 
             // Get column names
             const keys = Object.keys(entityMetadata.propertiesMap).join(', ');
 
-            const query = `SELECT ${keys}, (${miles} * ACOS(COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(latitude)))) AS \`distance\` FROM \`${tableName}\` ${byCategoryIdQuery} HAVING \`distance\` <= ? ORDER BY \`distance\` ASC LIMIT 75`;
+            const query = `SELECT ${keys}, (${miles} * ACOS(COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(latitude)))) AS \`distance\` FROM \`${tableName}\` ${listingIdsQuery} HAVING \`distance\` <= ? ORDER BY \`distance\` ASC LIMIT 75`;
 
             const [listings, listingsErr] = await promiseWrapper(
                 this.manager.query(query, queryParams)

@@ -37,7 +37,7 @@ class Controller {
 
     getListingsByDistance = async (req: Request, res: Response) => {
         const params = req.query;
-        const categoryId = Number(escapeString(params.categoryId));
+        const categoryId = Number(escapeString(params.category));
         const coordsParts = escapeString(params.coords).split(',');
         const coords = {
             lat: Number(coordsParts[0]),
@@ -46,7 +46,7 @@ class Controller {
         const distance = Number(escapeString(params.distance));
 
         const [listings, listingsErr] = await promiseWrapper(
-            this.listingsRepo.findByDistance(coords, distance, [categoryId])
+            this.listingsRepo.findByDistance(coords, distance, categoryId)
         );
         if (listingsErr) {
             logging.error(listingsErr);
