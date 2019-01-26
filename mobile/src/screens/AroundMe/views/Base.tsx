@@ -174,12 +174,8 @@ export class Base extends React.Component<any, IState> {
                     longitudeDelta: LONGITUDE_DELTA,
                 };
 
-                this.setState({ position, region }, () => {
-                    /**
-                     * Get updated listings after the users
-                     * location is set
-                     */
-                    this.getListings();
+                this.setState({ position, region }, async () => {
+                    await this.getListings();
                 });
             },
             error => console.error(error),
@@ -189,18 +185,17 @@ export class Base extends React.Component<any, IState> {
 
     updateUserLocation = (location: any) => {
         if (location.coords) {
-            const region = {
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-                latitudeDelta: LATITUDE_DELTA,
-                longitudeDelta: LONGITUDE_DELTA,
-            };
-
             const userLocation = {
                 coordinates: {
                     latitude: location.coords.latitude,
                     longitude: location.coords.longitude,
                 },
+            };
+
+            const region = {
+                ...userLocation.coordinates,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
             };
 
             this.setState({
