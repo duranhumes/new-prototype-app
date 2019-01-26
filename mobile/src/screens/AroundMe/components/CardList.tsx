@@ -20,9 +20,12 @@ export function CardList({
     return (
         <Animated.ScrollView
             horizontal={true}
-            scrollEventThrottle={1}
+            scrollEventThrottle={15}
             showsHorizontalScrollIndicator={false}
             snapToInterval={CARD_WIDTH}
+            decelerationRate={0}
+            directionalLockEnabled={true}
+            snapToAlignment="left"
             onScroll={Animated.event(
                 [
                     {
@@ -37,16 +40,14 @@ export function CardList({
             )}
             style={styles.scrollView}
             contentContainerStyle={styles.endPadding}>
-            {markers.map(marker => {
-                return (
-                    <Card
-                        key={marker.id}
-                        marker={marker}
-                        handleNavigation={handleNavigation}
-                        handleCall={handleCall}
-                    />
-                );
-            })}
+            {markers.map(marker => (
+                <Card
+                    key={marker.id}
+                    marker={marker}
+                    handleNavigation={handleNavigation}
+                    handleCall={handleCall}
+                />
+            ))}
         </Animated.ScrollView>
     );
 }
