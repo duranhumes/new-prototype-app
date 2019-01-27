@@ -14,7 +14,7 @@ interface ISelectForm {
 
 const pickerStyle = {
     icon: {
-        top: 8,
+        top: 6,
     },
 };
 
@@ -38,10 +38,10 @@ export class SelectForm extends React.Component<ISelectForm, any> {
             <View style={styles.filters}>
                 <View
                     style={{
-                        flex: 0.485,
+                        flex: 0.45,
                         width: '100%',
-                        padding: 5,
-                        marginRight: 5,
+                        padding: 7,
+                        marginRight: 7,
                     }}>
                     <RNPickerSelect
                         placeholder={{
@@ -71,9 +71,9 @@ export class SelectForm extends React.Component<ISelectForm, any> {
 
                 <View
                     style={{
-                        flex: 0.485,
+                        flex: 0.45,
                         width: '100%',
-                        padding: 5,
+                        padding: 7,
                     }}>
                     <RNPickerSelect
                         placeholder={{

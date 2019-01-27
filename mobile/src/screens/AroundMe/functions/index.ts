@@ -26,7 +26,7 @@ export async function makeListingsRequest(
         }
 
         const url = `${listingsEndpoint}/distance?${categoryStr}distance=${distance}&coords=${latitude},${longitude}`;
-        // const url = `${listingsEndpoint}/distance?${categoryStr}distance=${distance}&coords=25.025885,-78.035889`;
+
         const [response, responseErr] = await promiseWrapper(r.get(url));
         if (responseErr) {
             console.error(responseErr);

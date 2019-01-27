@@ -22,9 +22,10 @@ import {
     VIEWPORT_WIDTH,
 } from '../constants';
 import { makeListingsRequest, makeCategoriesRequest } from '../functions';
+import { IMarker } from '../interfaces';
 
 interface IState {
-    markers: any[];
+    markers: IMarker[];
     categories: any[];
     region: Region;
     userLocation: {
@@ -150,8 +151,6 @@ export class Base extends React.Component<any, IState> {
                 await this.getListings();
             }
         );
-
-        console.log({ value });
     };
 
     distanceChange = async (value: number) => {

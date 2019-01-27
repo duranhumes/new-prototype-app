@@ -9,7 +9,7 @@ export const CARD_WIDTH =
         ? VIEWPORT_WIDTH / 0.15
         : CARD_HEIGHT * 2.25;
 export const ASPECT_RATIO = VIEWPORT_WIDTH / VIEWPORT_HEIGHT;
-export const LATITUDE_DELTA = 0.005;
+export const LATITUDE_DELTA = 0.008;
 export const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export const defaultLatLng = {
     latitude: 25.07644,

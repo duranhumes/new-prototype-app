@@ -3,9 +3,10 @@ import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import { Button } from 'native-base';
 
 import { VIEWPORT_WIDTH, CARD_WIDTH, CARD_HEIGHT } from '../constants';
+import { IMarker } from '../interfaces';
 
 interface ICard {
-    marker: { [key: string]: any };
+    marker: IMarker;
     handleNavigation: (...args: any) => void;
     handleCall: (...args: any) => void;
 }

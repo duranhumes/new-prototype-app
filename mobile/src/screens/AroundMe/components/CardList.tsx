@@ -3,9 +3,10 @@ import { Animated, StyleSheet } from 'react-native';
 
 import { Card } from './Card';
 import { CARD_WIDTH, VIEWPORT_WIDTH } from '../constants';
+import { IMarker } from '../interfaces';
 
 interface ICardList {
-    markers: any[];
+    markers: IMarker[];
     animation: Animated.Value;
     handleNavigation: (...args: any) => void;
     handleCall: (...args: any) => void;
