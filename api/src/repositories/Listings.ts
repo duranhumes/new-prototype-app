@@ -92,9 +92,9 @@ export class ListingRepository implements IRepository<ListingsEntity> {
                 );
 
                 if (!isEmpty(listingIdsFromCategory)) {
-                    const listingIds = `${listingIdsFromCategory.map(
+                    const listingIds = listingIdsFromCategory.map(
                         (v: any) => v.listingId
-                    )}`;
+                    );
                     listingIdsQuery = `WHERE \`id\` IN (?)`;
                     queryParams.push(listingIds);
                 }
