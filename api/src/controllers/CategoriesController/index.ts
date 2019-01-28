@@ -41,7 +41,7 @@ class Controller {
         const query = { ...pagination, ...sort };
 
         const [categories, categoriesErr] = await promiseWrapper(
-            this.categoriesRepo.findQuery(query)
+            this.categoriesRepo.findQuery()
         );
         if (categoriesErr) {
             logging.error(categoriesErr);
