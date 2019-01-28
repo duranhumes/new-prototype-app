@@ -80,7 +80,7 @@ export class ListingRepository implements IRepository<ListingsEntity> {
             );
             const { lat, lng } = coords;
             const miles = 3959;
-            const queryParams: any = [lat, lng, lat, dist];
+            const queryParams: any = [lat, lng, lat];
 
             let listingIdsQuery = '';
             if (!!categoryId) {
@@ -99,6 +99,8 @@ export class ListingRepository implements IRepository<ListingsEntity> {
                     queryParams.push(listingIds);
                 }
             }
+
+            queryParams.push(dist);
 
             const query = `SELECT ${columnNames}, (${miles} * ACOS(COS(RADIANS(?)) * COS(RADIANS(latitude)) * COS(RADIANS(longitude) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(latitude)))) AS \`distance\` FROM \`${tableName}\` ${listingIdsQuery} HAVING \`distance\` <= ? ORDER BY \`distance\` ASC LIMIT 75`;
 
