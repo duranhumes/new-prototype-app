@@ -6,17 +6,17 @@ import { VIEWPORT_WIDTH, CARD_WIDTH, CARD_HEIGHT } from '../constants';
 import { IMarker } from '../interfaces';
 
 interface ICard {
-    marker: IMarker;
+    item: IMarker;
     handleNavigation: (...args: any) => void;
     handleCall: (...args: any) => void;
 }
 
-export function Card({ marker, handleNavigation, handleCall }: ICard) {
-    const { title, address, phone } = marker;
+export function Card({ item, handleNavigation, handleCall }: ICard) {
+    const { title, address, phone } = item;
     return (
         <TouchableHighlight
             style={styles.card}
-            onPress={() => handleNavigation(marker)}>
+            onPress={() => handleNavigation(item)}>
             <View style={styles.textContent}>
                 <Text numberOfLines={1} style={styles.cardTitle}>
                     {title}

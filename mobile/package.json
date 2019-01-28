@@ -22,6 +22,8 @@
         "react-native-maps": "^0.23.0",
         "react-native-phone-call": "^1.0.9",
         "react-native-picker-select": "^5.2.3",
+        "//": "Not using the original package from archriss because of the onScroll issue when updating the maps, this dev has solved that problem and until the pr gets merged his version with be used. https://github.com/archriss/react-native-snap-carousel/pull/439",
+        "react-native-snap-carousel": "Jberivera/react-native-snap-carousel#feature/AllowAnimatedEvent",
         "react-navigation": "^3.1.0",
         "uuid": "^3.3.2"
     },
@@ -31,6 +33,7 @@
         "@types/node": "^10.12.18",
         "@types/react": "^16.7.21",
         "@types/react-native": "^0.57.32",
+        "@types/react-native-snap-carousel": "^3.7.1",
         "@types/react-navigation": "^3.0.1",
         "@types/react-test-renderer": "^16.0.3",
         "@types/uuid": "^3.4.4",
