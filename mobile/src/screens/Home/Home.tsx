@@ -1,24 +1,35 @@
 import * as React from 'react';
-import { StatusBar, ScrollView } from 'react-native';
-import { Box, Text } from 'react-native-design-utility';
+import { View, Text, StatusBar, ScrollView, StyleSheet } from 'react-native';
 
-class Home extends React.Component {
+import { theme } from '../../constants';
+
+export default class Home extends React.Component {
     static navigationOptions = {
         header: null,
     };
 
     render() {
         return (
-            <Box f={1} bg="white">
+            <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
-                <Box f={1} pb="sm">
+                <View style={styles.child}>
                     <ScrollView>
                         <Text>Home</Text>
                     </ScrollView>
-                </Box>
-            </Box>
+                </View>
+            </View>
         );
     }
 }
 
-export default Home;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+
+    child: {
+        flex: 1,
+        paddingBottom: theme.space.sm,
+    },
+});

@@ -1,25 +1,36 @@
 import * as React from 'react';
-import { StatusBar } from 'react-native';
-import { Box } from 'react-native-design-utility';
+import { View, StatusBar, StyleSheet } from 'react-native';
 
 import { Listing } from './views/Listing';
+import { theme } from '../../constants';
 
-class AroundMeListing extends React.Component<{ navigation: any }> {
+export default class AroundMeListing extends React.Component<{
+    navigation: any;
+}> {
     static navigationOptions = {
         header: null,
     };
 
     render() {
-        console.log(this.props);
         return (
-            <Box f={1} bg="white">
+            <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
-                <Box f={1} pb="sm">
+                <View style={styles.child}>
                     <Listing data={this.props.navigation} />
-                </Box>
-            </Box>
+                </View>
+            </View>
         );
     }
 }
 
-export default AroundMeListing;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+
+    child: {
+        flex: 1,
+        paddingBottom: theme.space.sm,
+    },
+});

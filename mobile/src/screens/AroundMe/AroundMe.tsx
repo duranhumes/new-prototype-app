@@ -1,24 +1,34 @@
 import * as React from 'react';
-import { StatusBar } from 'react-native';
-import { Box } from 'react-native-design-utility';
+import { View, StatusBar, StyleSheet } from 'react-native';
 
 import { Base } from './views/Base';
+import { theme } from '../../constants';
 
-class AroundMe extends React.Component {
+export default class AroundMe extends React.Component {
     static navigationOptions = {
         header: null,
     };
 
     render() {
         return (
-            <Box f={1} bg="white">
+            <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
-                <Box f={1} pb="sm">
+                <View style={styles.child}>
                     <Base />
-                </Box>
-            </Box>
+                </View>
+            </View>
         );
     }
 }
 
-export default AroundMe;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'white',
+    },
+
+    child: {
+        flex: 1,
+        paddingBottom: theme.space.sm,
+    },
+});
