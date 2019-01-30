@@ -9,11 +9,12 @@ import {
 import { NavigationService } from './services/NavigationService';
 import ErrorBoundary from './ErrorBoundary';
 
-import { HomeStack, AroundMeStack } from './screens';
+import { HomeStack, AroundMeStack, SearchStack } from './screens';
 
 const TabNavigator = createBottomTabNavigator({
     Home: HomeStack,
     AroundMe: AroundMeStack,
+    Search: SearchStack,
 });
 
 const MainNavigator = createStackNavigator(
