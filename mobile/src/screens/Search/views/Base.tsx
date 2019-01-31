@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Keyboard, StyleSheet, ScrollView } from 'react-native';
-import { debounce } from 'lodash/function';
+import debounce from 'lodash/debounce';
 import RNPhoneCall from 'react-native-phone-call';
 
 import { NavigationService } from '../../../services/NavigationService';
@@ -41,6 +41,7 @@ export class Base extends React.Component<any, IState> {
                 const results = await makeSearchRequest(this.state.query);
 
                 this.setState({ isLoading: false, listings: results });
+                Keyboard.dismiss();
             }, SEARCH_DEBOUNCE_TIME)();
         } else {
             this.setState({ listings: [] });

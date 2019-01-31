@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, StatusBar, StyleSheet } from 'react-native';
 
-import { Listing } from './views/Listing';
+import { Item } from './views/Item';
 import { theme } from '../../constants';
 
-export default class SearchListing extends React.Component<{
+export default class SearchItem extends React.Component<{
     navigation: any;
 }> {
     static navigationOptions = {
@@ -16,7 +16,7 @@ export default class SearchListing extends React.Component<{
             <View style={styles.container}>
                 <StatusBar barStyle="dark-content" />
                 <View style={styles.child}>
-                    <Listing data={this.props.navigation} />
+                    <Item data={this.props.navigation} />
                 </View>
             </View>
         );

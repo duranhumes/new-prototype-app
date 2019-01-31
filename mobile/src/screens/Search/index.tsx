@@ -11,7 +11,7 @@ export const SearchStack = createStackNavigator(
             getScreen: () => require('./Search').default,
         },
         Listing: {
-            getScreen: () => require('./SearchListing').default,
+            getScreen: () => require('./SearchItem').default,
         },
     },
     {
