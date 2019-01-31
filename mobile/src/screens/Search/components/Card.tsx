@@ -3,11 +3,11 @@ import { Icon } from 'expo';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 
 import { VIEWPORT_WIDTH, resultTypes } from '../constants';
-import { IListing } from '../interfaces';
+import { IItem } from '../interfaces';
 import { theme } from '../../../constants';
 
 interface ICard {
-    item: IListing;
+    item: IItem;
     handleNavigation: (...args: any) => void;
     handleCall: (...args: any) => void;
 }

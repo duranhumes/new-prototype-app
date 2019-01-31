@@ -6,12 +6,12 @@ import RNPhoneCall from 'react-native-phone-call';
 import { NavigationService } from '../../../services/NavigationService';
 import { Spinner, SearchBar } from '../../../components';
 import { makeSearchRequest } from '../functions';
-import { IListing } from '../interfaces';
+import { IItem } from '../interfaces';
 import { Card } from '../components';
 
 interface IState {
     isLoading: boolean;
-    listings: IListing[];
+    listings: IItem[];
     query: string;
 }
 
@@ -85,16 +85,14 @@ export class Base extends React.Component<any, IState> {
                 <View style={styles.listings}>
                     <ScrollView>
                         {this.state.listings.length > 0 &&
-                            this.state.listings.map(
-                                (listing: IListing, index) => (
-                                    <Card
-                                        key={index}
-                                        item={listing}
-                                        handleNavigation={this.handleNavigation}
-                                        handleCall={this.handleCall}
-                                    />
-                                )
-                            )}
+                            this.state.listings.map((listing: IItem, index) => (
+                                <Card
+                                    key={index}
+                                    item={listing}
+                                    handleNavigation={this.handleNavigation}
+                                    handleCall={this.handleCall}
+                                />
+                            ))}
                     </ScrollView>
                 </View>
             </View>

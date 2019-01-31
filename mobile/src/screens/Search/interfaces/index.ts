@@ -10,7 +10,7 @@ interface Locations {
     zoomlevel: number;
 }
 
-export interface IListing {
+export interface IItem {
     id: number;
     title: string;
     info: string;
