@@ -205,7 +205,7 @@ export class Base extends React.Component<any, IState> {
     };
 
     handleCall = (phoneNumber: string) => {
-        const pNumber = phoneNumber.replace(/[^0-9]/gi, '');
+        const pNumber = phoneNumber.replace(/[^0-9]/gi, '').slice(0, 10);
         RNPhoneCall({
             number: String(pNumber),
             prompt: true,

@@ -435,8 +435,8 @@ const styles = StyleSheet.create({
     },
     input: {
         ...Platform.select({
-            ios: { height: 30 },
-            android: { height: 50 },
+            ios: { height: 25 },
+            android: { height: 45 },
         }),
         width: Dimensions.get('window').width - 120,
         zIndex: 9999999,
