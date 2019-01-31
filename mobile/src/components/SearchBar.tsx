@@ -9,8 +9,6 @@ import {
     Animated,
 } from 'react-native';
 import { Icon } from 'expo';
-import { some, includes } from 'lodash/collection';
-import { debounce } from 'lodash/function';
 
 const INITIAL_TOP = Platform.OS === 'ios' ? -80 : -60;
 
@@ -19,7 +17,6 @@ interface IProps {
     placeholder: string;
     handleChangeText?: (...args: any) => any;
     handleSearch?: (...args: any) => any;
-    handleResults?: (...args: any) => any;
     onSubmitEditing?: (...args: any) => any;
     onFocus?: (...args: any) => any;
     onBlur?: (...args: any) => any;
@@ -199,7 +196,7 @@ export class SearchBar extends React.Component<IProps, IState> {
     };
 
     _onChangeText = (input: string) => {
-        const { handleChangeText, handleSearch, handleResults } = this.props;
+        const { handleChangeText, handleSearch } = this.props;
 
         this.setState({ input });
         if (handleChangeText) {
@@ -207,43 +204,7 @@ export class SearchBar extends React.Component<IProps, IState> {
         }
         if (handleSearch) {
             handleSearch(input);
-        } else {
-            debounce(() => {
-                // use internal search logic (depth first)!
-                if (handleResults) {
-                    const results = this._internalSearch(input);
-                    handleResults(results);
-                }
-            }, 400)();
         }
-    };
-
-    _internalSearch = (input: string) => {
-        const { data, allDataOnEmptySearch } = this.props;
-        if (input === '') {
-            return allDataOnEmptySearch ? data : [];
-        }
-
-        return data.filter((item: any) => this._depthFirstSearch(item, input));
-    };
-
-    _depthFirstSearch = (collection: any[], input: string) => {
-        const collectionType = typeof collection;
-        // base case(s)
-        if (
-            collectionType === 'string' ||
-            collectionType === 'number' ||
-            collectionType === 'boolean'
-        ) {
-            return includes(
-                collection.toString().toLowerCase(),
-                input.toString().toLowerCase()
-            );
-        }
-
-        return some(collection, (item: any) =>
-            this._depthFirstSearch(item, input)
-        );
     };
 
     render = () => {
