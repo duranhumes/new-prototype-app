@@ -80,6 +80,7 @@ export class Base extends React.Component<any, IState> {
                         handleChangeText={this.handleInput}
                         allDataOnEmptySearch={true}
                         showOnLoad={true}
+                        hideBack={true}
                     />
                 </View>
                 <View style={styles.listings}>
