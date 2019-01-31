@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
-import { Button } from 'native-base';
 
 import { VIEWPORT_WIDTH, CARD_WIDTH, CARD_HEIGHT } from '../constants';
 import { IMarker } from '../interfaces';
@@ -24,9 +23,9 @@ export function Card({ item, handleNavigation, handleCall }: ICard) {
                 <Text numberOfLines={1} style={styles.cardDescription}>
                     {address}
                 </Text>
-                <Button transparent onPress={() => handleCall(phone)}>
+                <TouchableHighlight onPress={() => handleCall(phone)}>
                     <Text style={styles.cardDescription}>{phone}</Text>
-                </Button>
+                </TouchableHighlight>
             </View>
         </TouchableHighlight>
     );

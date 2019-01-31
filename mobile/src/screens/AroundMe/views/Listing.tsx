@@ -1,18 +1,17 @@
 import * as React from 'react';
 import {
     StyleSheet,
-    Dimensions,
     View,
     Image,
     TouchableOpacity,
+    Text,
+    ScrollView,
 } from 'react-native';
-import { Container, Content, Text } from 'native-base';
 
-const VIEWPORT_WIDTH = Dimensions.get('window').width;
+import { VIEWPORT_WIDTH } from '../constants';
 
 class Listing extends React.Component<{ data: any }> {
     render() {
-        console.log(this.props);
         const {
             title,
             address,
@@ -22,6 +21,7 @@ class Listing extends React.Component<{ data: any }> {
             description,
         } = this.props.data.state.params;
         const {
+            container,
             header,
             distanceStyle,
             imageStyle,
@@ -32,8 +32,8 @@ class Listing extends React.Component<{ data: any }> {
             descriptionContainerStyle,
         } = styles;
         return (
-            <Container>
-                <Content>
+            <View style={container}>
+                <ScrollView>
                     <View style={header}>
                         <TouchableOpacity style={distanceStyle}>
                             <Text>{distance}</Text>
@@ -48,13 +48,17 @@ class Listing extends React.Component<{ data: any }> {
                     <View style={descriptionContainerStyle}>
                         <Text style={descriptionStyle}>{description}</Text>
                     </View>
-                </Content>
-            </Container>
+                </ScrollView>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 5,
+    },
     header: {
         width: VIEWPORT_WIDTH,
         height: 300,
