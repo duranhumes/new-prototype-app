@@ -40,6 +40,7 @@ class Controller {
         // Replace api url names with actual db column names
         const sortStr = params.sort
             .replace('date', 'news_date')
+            .replace('text', 'news_text')
             .replace('heading', 'news_heading');
 
         const sort = createSortObject(sortStr);
