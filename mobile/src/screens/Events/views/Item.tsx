@@ -1,37 +1,45 @@
 import * as React from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import HTML from 'react-native-render-html';
 
-import { VIEWPORT_WIDTH, defaultImage } from '../constants';
+import { VIEWPORT_WIDTH } from '../constants';
 import { IItem } from '../interfaces';
-import { formatDate, formatImageUrl } from '../../../utils';
+import { formatDate } from '../../../utils';
 
+// TODO: Add event image on backend and here
 export function Item({ data }: any) {
-    const { title, image, date, text }: Partial<IItem> = data.state.params;
-    const backgroundImage = image
-        ? { uri: formatImageUrl(image) }
-        : defaultImage;
+    const {
+        title,
+        fullDescription,
+        shortDescription,
+        startDate,
+    }: Partial<IItem> = data.state.params;
 
     return (
         <View style={styles.container}>
             <ScrollView>
                 <View style={styles.header}>
                     <View style={styles.date}>
-                        <Text>{formatDate(String(date))}</Text>
+                        <Text>{formatDate(String(startDate))}</Text>
                     </View>
-                    <Image
+                    {/* <Image
                         style={styles.image}
                         source={backgroundImage}
                         resizeMode="cover"
                         blurRadius={2}
-                    />
+                    /> */}
                 </View>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{title}</Text>
                 </View>
                 <View style={styles.textContainer}>
                     <HTML
-                        html={text}
+                        html={shortDescription}
+                        ignoredStyles={['letter-spacing', 'line-height']}
+                        imagesMaxWidth={VIEWPORT_WIDTH}
+                    />
+                    <HTML
+                        html={fullDescription}
                         ignoredStyles={['letter-spacing', 'line-height']}
                         imagesMaxWidth={VIEWPORT_WIDTH}
                     />

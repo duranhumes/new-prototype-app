@@ -12,7 +12,7 @@ interface ICard {
 }
 
 export function Card({ item, handleNavigation }: ICard) {
-    const { title, text, heading, date } = item;
+    const { title, fullDescription, shortDescription, startDate } = item;
 
     return (
         <TouchableHighlight
@@ -24,13 +24,13 @@ export function Card({ item, handleNavigation }: ICard) {
                         {title}
                     </Text>
                     <Text numberOfLines={1} style={styles.cardDescription}>
-                        {heading.length > 0
-                            ? heading.replace(/<(?:.|\n)*?>/gm, '')
-                            : text.replace(/<(?:.|\n)*?>/gm, '')}
+                        {shortDescription.length > 0
+                            ? shortDescription.replace(/<(?:.|\n)*?>/gm, '')
+                            : fullDescription.replace(/<(?:.|\n)*?>/gm, '')}
                     </Text>
                 </View>
                 <View style={styles.tagContainer}>
-                    <Text style={styles.tag}>{formatDate(date)}</Text>
+                    <Text style={styles.tag}>{formatDate(startDate)}</Text>
                 </View>
             </>
         </TouchableHighlight>

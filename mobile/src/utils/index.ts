@@ -1,4 +1,5 @@
 import * as uuid from 'uuid/v4';
+import { format } from 'date-fns';
 
 /**
  * Check if object is plain or has extra properties
@@ -147,3 +148,13 @@ export function formattedUUID() {
  */
 export const formatImageUrl = (str: string) =>
     `https://www.bahamaslocal.com/img/news/${str}`;
+
+/**
+ * Formats a date string / object for display
+ *
+ * @param date a valid date string / object
+ *
+ * @returns formatted date string i.e. `May 10, 2018`
+ */
+const DAY_FORMAT = 'MMM DD GGGG';
+export const formatDate = (date: string | Date) => format(date, DAY_FORMAT);

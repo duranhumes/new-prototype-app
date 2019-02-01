@@ -3,20 +3,20 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 
 import { NavigationService } from '../../../services/NavigationService';
 import { Spinner } from '../../../components';
-import { makeNewsRequest } from '../functions';
+import { makeEventsRequest } from '../functions';
 import { IItem } from '../interfaces';
 import { Card } from '../components';
 
 interface IState {
     isLoading: boolean;
-    news: IItem[];
+    events: IItem[];
     currentPage: number;
 }
 
 export class Base extends React.Component<any, IState> {
     state = {
         isLoading: false,
-        news: [],
+        events: [],
         hasMore: true,
         currentPage: 1,
     };
@@ -25,7 +25,7 @@ export class Base extends React.Component<any, IState> {
         NavigationService.navigate('Item', data);
     };
 
-    getNews = async () => {
+    getEvents = async () => {
         if (this.state.isLoading || !this.state.hasMore) return;
 
         this.setState({ isLoading: true });
@@ -35,11 +35,12 @@ export class Base extends React.Component<any, IState> {
             limit: 20,
         };
 
-        const newsItems = await makeNewsRequest(pagination);
+        const eventsItems = await makeEventsRequest(pagination);
         this.setState(state => ({
             hasMore:
-                [...state.news, ...newsItems].length < pagination.limit * 10,
-            news: [...state.news, ...newsItems],
+                [...state.events, ...eventsItems].length <
+                pagination.limit * 10,
+            events: [...state.events, ...eventsItems],
             currentPage: state.currentPage + 1,
             isLoading: false,
         }));
@@ -58,12 +59,12 @@ export class Base extends React.Component<any, IState> {
 
     handleScroll = ({ nativeEvent }: any) => {
         if (this.isCloseToBottom(nativeEvent) && this.state.hasMore) {
-            this.getNews();
+            this.getEvents();
         }
     };
 
     async componentDidMount() {
-        await this.getNews();
+        await this.getEvents();
     }
 
     render() {
@@ -76,12 +77,12 @@ export class Base extends React.Component<any, IState> {
                         size="large"
                     />
                 )}
-                <View style={styles.news}>
+                <View style={styles.events}>
                     <ScrollView
                         scrollEventThrottle={12}
                         onScroll={this.handleScroll}>
-                        {this.state.news.length > 0 &&
-                            this.state.news.map((n: IItem, index) => (
+                        {this.state.events.length > 0 &&
+                            this.state.events.map((n: IItem, index) => (
                                 <Card
                                     key={index}
                                     item={n}
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'space-between',
     },
-    news: {
+    events: {
         flex: 1,
         flexGrow: 7,
     },

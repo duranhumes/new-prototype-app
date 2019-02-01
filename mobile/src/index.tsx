@@ -9,11 +9,18 @@ import {
 import { NavigationService } from './services/NavigationService';
 import ErrorBoundary from './ErrorBoundary';
 
-import { HomeStack, AroundMeStack, SearchStack, NewsStack } from './screens';
+import {
+    HomeStack,
+    AroundMeStack,
+    SearchStack,
+    NewsStack,
+    EventsStack,
+} from './screens';
 
 const TabNavigator = createBottomTabNavigator({
     Home: HomeStack,
     News: NewsStack,
+    Events: EventsStack,
     AroundMe: AroundMeStack,
     Search: SearchStack,
 });
@@ -33,9 +40,6 @@ const MainNavigator = createStackNavigator(
 const AppNavigator = createAppContainer(
     createSwitchNavigator(
         {
-            // Splash: {
-            //     getScreen: () => require('./screens/Splash').default,
-            // },
             Main: MainNavigator,
         },
         {

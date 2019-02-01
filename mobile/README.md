@@ -25,4 +25,6 @@
 
 ### Rendering html can sometimes cause css conversion errors like `Warning: Failed prop type: Invalid prop lineHeight of type string supplied to ForwardRef(Text), expected number`
 You'd have to add the `ignoredStyles` prop to the `HTML` component and supply it with an array of the css style that is causeing the errors.
-(see)[https://github.com/archriss/react-native-render-html/issues/154#issuecomment-457803016]
+[see](https://github.com/archriss/react-native-render-html/issues/154#issuecomment-457803016)
+
+An error reporting service should be added to catch runtime errors, that happen in the app. Something like sentry or something custom, but it needs the be there and setup.

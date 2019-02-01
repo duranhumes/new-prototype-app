@@ -1,10 +1,10 @@
-import { newsEndpoint } from '../../../api/Endpoints';
+import { eventsEndpoint } from '../../../api/Endpoints';
 import { promiseWrapper } from '../../../utils';
 import request from '../../../utils/request';
 
 const r = request();
 
-export async function makeNewsRequest({
+export async function makeEventsRequest({
     page,
     limit,
 }: {
@@ -12,7 +12,7 @@ export async function makeNewsRequest({
     limit: number;
 }) {
     const [response, responseErr] = await promiseWrapper(
-        r.get(`${newsEndpoint}?sort=date:desc&limit=${limit}&page=${page}`)
+        r.get(`${eventsEndpoint}?sort=start:desc&limit=${limit}&page=${page}`)
     );
     if (responseErr) {
         console.error(responseErr);
