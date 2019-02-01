@@ -1,7 +1,7 @@
 {
-    "name": "b-stream-api",
+    "name": "new-prototype-app-api",
     "version": "1.0.0",
-    "repository": "git@github.com:duranhumes/b-stream.git",
+    "repository": "git@github.com:duranhumes/new-prototype-app.git",
     "author": "Duran Humes <duranhumes@gmail.com>",
     "license": "MIT",
     "description": "",

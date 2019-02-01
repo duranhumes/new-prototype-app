@@ -15,6 +15,7 @@
         "//": "Not using the original package from archriss because of the onScroll issue when updating the maps, this dev has solved that problem and until the pr gets merged his version with be used. https://github.com/archriss/react-native-snap-carousel/pull/439",
         "@expo/samples": "2.1.1",
         "axios": "^0.18.0",
+        "date-fns": "^1.30.1",
         "expo": "^32.0.2-rc.0",
         "lodash": "^4.17.11",
         "react": "16.5.0",
@@ -28,6 +29,7 @@
         "uuid": "^3.3.2"
     },
     "devDependencies": {
+        "@types/date-fns": "^2.6.0",
         "@types/expo": "^31.0.8",
         "@types/jest": "^23.3.13",
         "@types/node": "^10.12.18",

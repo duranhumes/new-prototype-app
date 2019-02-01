@@ -26,7 +26,11 @@ export function NewsView({ data }: any) {
                     <Text style={styles.title}>{title}</Text>
                 </View>
                 <View style={styles.textContainer}>
-                    <HTML html={news_text} imagesMaxWidth={VIEWPORT_WIDTH} />
+                    <HTML
+                        html={news_text}
+                        ignoredStyles={['letter-spacing', 'line-height']}
+                        imagesMaxWidth={VIEWPORT_WIDTH}
+                    />
                 </View>
             </ScrollView>
         </View>

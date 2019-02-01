@@ -1,19 +1,14 @@
 import * as React from 'react';
-import {
-    StyleSheet,
-    View,
-    Image,
-    TouchableOpacity,
-    Text,
-    ScrollView,
-} from 'react-native';
+import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
 import HTML from 'react-native-render-html';
 
 import { VIEWPORT_WIDTH, defaultImage } from '../constants';
+import { IItem } from '../interfaces';
+import { formatDate } from '../functions';
 import { formatImageUrl } from '../../../utils';
 
-export function ListingView({ data }: any) {
-    const { title, address, image, phone, info } = data;
+export function Item({ data }: any) {
+    const { title, image, date, text }: Partial<IItem> = data.state.params;
     const backgroundImage = image
         ? { uri: formatImageUrl(image) }
         : defaultImage;
@@ -22,24 +17,22 @@ export function ListingView({ data }: any) {
         <View style={styles.container}>
             <ScrollView>
                 <View style={styles.header}>
-                    <TouchableOpacity style={styles.distance}>
-                        <Text>distance</Text>
-                    </TouchableOpacity>
+                    <View style={styles.date}>
+                        <Text>{formatDate(String(date))}</Text>
+                    </View>
                     <Image
                         style={styles.image}
                         source={backgroundImage}
                         resizeMode="cover"
-                        blurRadius={5}
+                        blurRadius={2}
                     />
                 </View>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.subText}>{address}</Text>
-                    <Text style={styles.subText}>{phone}</Text>
                 </View>
-                <View style={styles.infoContainer}>
+                <View style={styles.textContainer}>
                     <HTML
-                        html={info}
+                        html={text}
                         ignoredStyles={['letter-spacing', 'line-height']}
                         imagesMaxWidth={VIEWPORT_WIDTH}
                     />
@@ -60,16 +53,6 @@ const styles = StyleSheet.create({
         position: 'relative',
         overflow: 'hidden',
     },
-    distance: {
-        position: 'absolute',
-        top: 10,
-        left: 10,
-        zIndex: 5,
-        backgroundColor: '#f2f2f2',
-        padding: 5,
-        paddingHorizontal: 10,
-        borderRadius: 100,
-    },
     image: {
         width: VIEWPORT_WIDTH,
         height: 200,
@@ -79,23 +62,27 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
     },
+    date: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+        zIndex: 5,
+        backgroundColor: '#f2f2f2',
+        padding: 5,
+        paddingHorizontal: 10,
+        borderRadius: 100,
+    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center',
-    },
-    subText: {
-        fontSize: 14,
-        color: '#aaa',
-        textAlign: 'center',
-        marginVertical: 15,
     },
     titleContainer: {
         width: VIEWPORT_WIDTH,
         flex: 1,
         paddingVertical: 20,
     },
-    infoContainer: {
+    textContainer: {
         paddingHorizontal: 20,
     },
 });

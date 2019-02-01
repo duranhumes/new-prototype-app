@@ -5,23 +5,23 @@ import { createStackNavigator } from 'react-navigation';
 import { theme } from '../../constants';
 import TabBarIcon from '../../components/TabBarIcon';
 
-export const SearchStack = createStackNavigator(
+export const NewsStack = createStackNavigator(
     {
         Base: {
-            getScreen: () => require('./Search').default,
+            getScreen: () => require('./News').default,
         },
         Item: {
-            getScreen: () => require('./SearchItem').default,
+            getScreen: () => require('./NewsItem').default,
         },
     },
     {
         navigationOptions: {
             ...theme.primaryHeader,
-            tabBarLabel: 'Search',
+            tabBarLabel: 'News',
             tabBarIcon: ({ focused }) => (
                 <TabBarIcon
                     focused={focused}
-                    name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
+                    name={Platform.OS === 'ios' ? 'ios-paper' : 'md-paper'}
                 />
             ),
         },

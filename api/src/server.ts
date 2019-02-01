@@ -64,7 +64,7 @@ app.use('/v1', router);
 router.get('/_healthz', (_, res) => res.sendStatus(200));
 router.use('/listings', controllers.ListingsController);
 router.use('/categories', controllers.CategoriesController);
-// router.use('/news', controllers.NewsController);
+router.use('/news', controllers.NewsController);
 
 app.use(errorHandler);
 

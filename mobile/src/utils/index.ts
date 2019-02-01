@@ -137,3 +137,13 @@ function entityRecurse(obj: object = {}, fieldsToExclude: string[]) {
 export function formattedUUID() {
     return uuid().replace(/[^a-z0-9]/gi, '');
 }
+
+/**
+ * Formats url for image component
+ *
+ * @param str image filename i.e. dsD3Iw.jpg
+ *
+ * @returns formated url for an image component
+ */
+export const formatImageUrl = (str: string) =>
+    `https://www.bahamaslocal.com/img/news/${str}`;

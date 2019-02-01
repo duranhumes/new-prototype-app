@@ -57,7 +57,7 @@ export class Base extends React.Component<any, IState> {
     };
 
     handleNavigation = (data: any) => {
-        NavigationService.navigate('Listing', { ...data });
+        NavigationService.navigate('Item', { ...data });
     };
 
     render() {
