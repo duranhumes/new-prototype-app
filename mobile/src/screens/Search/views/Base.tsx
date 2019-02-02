@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View, Keyboard, StyleSheet, ScrollView } from 'react-native';
-import debounce from 'lodash/debounce';
 import RNPhoneCall from 'react-native-phone-call';
 
 import { NavigationService } from '../../../services/NavigationService';
@@ -15,10 +14,8 @@ interface IState {
     query: string;
 }
 
-const SEARCH_DEBOUNCE_TIME = 1100;
-
 export class Base extends React.Component<any, IState> {
-    searchBar: SearchBar | undefined | null;
+    _scrollView: any;
 
     state = {
         isLoading: true,
@@ -32,17 +29,21 @@ export class Base extends React.Component<any, IState> {
 
     handleInput = (input: string) => {
         this.setState({ query: input });
+    };
+
+    handleSearch = async () => {
         const minimumCharaters = 2;
+        const { query } = this.state;
 
-        if (input.length > minimumCharaters) {
-            debounce(async () => {
-                this.setState({ isLoading: true });
+        if (query.length > minimumCharaters) {
+            this.setState({ isLoading: true });
 
-                const results = await makeSearchRequest(this.state.query);
+            this._scrollView.scrollTo({ x: 0, y: 0, animated: true });
 
-                this.setState({ isLoading: false, listings: results });
-                Keyboard.dismiss();
-            }, SEARCH_DEBOUNCE_TIME)();
+            const results = await makeSearchRequest(query);
+
+            this.setState({ isLoading: false, listings: results });
+            Keyboard.dismiss();
         } else {
             this.setState({ listings: [] });
         }
@@ -72,19 +73,14 @@ export class Base extends React.Component<any, IState> {
                 )}
                 <View style={styles.searchBar}>
                     <SearchBar
-                        ref={ref => (this.searchBar = ref)}
-                        onBlur={() => console.log}
-                        onBack={() => Keyboard.dismiss()}
-                        animationDuration={350}
-                        backCloseSize={40}
                         handleChangeText={this.handleInput}
-                        allDataOnEmptySearch={true}
+                        onSubmitEditing={this.handleSearch}
                         showOnLoad={true}
                         hideBack={true}
                     />
                 </View>
                 <View style={styles.listings}>
-                    <ScrollView>
+                    <ScrollView ref={(ref: any) => (this._scrollView = ref)}>
                         {this.state.listings.length > 0 &&
                             this.state.listings.map((listing: IItem, index) => (
                                 <Card
