@@ -266,7 +266,7 @@ export function createLinksObject(
         .filter(Boolean);
 
     const perPage = (skip + take) / take;
-    const previousPage = perPage - 1 === 0 ? 1 : perPage - 1;
+    const previousPage = perPage - 1 <= 0 ? 1 : perPage - 1;
     const urlEnd = newParams.length > 0 ? `&${newParams.join('&')}` : '';
 
     return {

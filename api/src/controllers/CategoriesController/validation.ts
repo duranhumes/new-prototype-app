@@ -4,8 +4,8 @@ import { query, validationResult } from 'express-validator/check';
 import { code422 } from '../../utils/httpMessages';
 
 export const validationRules = {
-    getCategories: [
-        query('listing_id')
+    getListingsFromCategoryId: [
+        query('categoryId')
             .not()
             .isEmpty()
             .trim()

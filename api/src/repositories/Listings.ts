@@ -1,4 +1,4 @@
-import { getManager, EntityManager } from 'typeorm';
+import { getManager, EntityManager, In } from 'typeorm';
 
 import { ListingsEntity } from '../entities';
 import { IRepository } from './IRepository';
@@ -118,6 +118,64 @@ export class ListingRepository implements IRepository<ListingsEntity> {
             }
 
             return resolve(listings);
+        });
+    };
+
+    findListingsByCategoryId = (categoryId: number, params: object = {}) => {
+        return new Promise<ListingsEntity[]>(async (resolve, reject) => {
+            const pivotTableName = 'items_to_categories';
+
+            const [
+                listingIdsFromCategory,
+                listingIdsFromCategoryErr,
+            ] = await promiseWrapper(
+                this.manager.query(
+                    `SELECT item AS listingId FROM \`${pivotTableName}\` WHERE \`category\` = ?`,
+                    [categoryId]
+                )
+            );
+            if (listingIdsFromCategoryErr) {
+                logging.error(listingIdsFromCategoryErr);
+
+                return reject({
+                    code: 500,
+                    message: listingIdsFromCategoryErr.message,
+                });
+            }
+
+            if (!listingIdsFromCategory || isEmpty(listingIdsFromCategory)) {
+                return resolve([]);
+            }
+
+            const [listings, listingsErr] = await promiseWrapper(
+                this.manager.find(ListingsEntity, {
+                    ...params,
+                    where: { id: In([listingIdsFromCategory]) },
+                })
+            );
+            if (listingsErr) {
+                logging.error(listingsErr);
+
+                return reject({ code: 500, message: listingsErr.message });
+            }
+
+            const [count, countErr] = await promiseWrapper(
+                this.manager.count(ListingsEntity, {
+                    ...params,
+                    where: { id: In([listingIdsFromCategory]) },
+                })
+            );
+            if (countErr) {
+                logging.error(countErr);
+
+                return reject({ code: 500, message: countErr.message });
+            }
+
+            if (!listings || isEmpty(listings)) {
+                return resolve([]);
+            }
+
+            return resolve([listings, count]);
         });
     };
 }

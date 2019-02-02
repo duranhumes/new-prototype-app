@@ -38,11 +38,13 @@ class Controller {
         const links = createLinksObject(url, pagination);
 
         // Replace api url names with actual db column names
-        const sortStr = params.sort
-            .replace('shortDescription', 'short_description')
-            .replace('fullDescription', 'full_description')
-            .replace('startDate', 'start')
-            .replace('endDate', 'end');
+        const sortStr =
+            params.sort &&
+            params.sort
+                .replace('shortDescription', 'short_description')
+                .replace('fullDescription', 'full_description')
+                .replace('startDate', 'start')
+                .replace('endDate', 'end');
 
         const sort = createSortObject(sortStr);
         const query = { ...pagination, ...sort };

@@ -1,9 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinTable } from 'typeorm';
+import {
+    Entity,
+    PrimaryGeneratedColumn,
+    Column,
+    JoinTable,
+    AfterLoad,
+} from 'typeorm';
 
 import { ListingsEntity } from './Listings';
 
 @Entity('categories')
 export class CategoryEntity {
+    title: string | undefined;
+
     @PrimaryGeneratedColumn()
     id: number | undefined;
 
@@ -15,4 +23,11 @@ export class CategoryEntity {
 
     @JoinTable({ name: 'items_to_categories' })
     item: ListingsEntity[] = [];
+
+    @AfterLoad()
+    handleAfterLoad() {
+        this.title = this.category;
+
+        this.category = undefined;
+    }
 }
