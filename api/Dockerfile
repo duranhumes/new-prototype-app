@@ -3,9 +3,6 @@ FROM node:11.3.0-alpine
 # Declare variables
 ENV DIR /usr/src/app
 ENV USER node
-ENV GROUP node
-ENV UID 5000
-ENV GID 5000
 ENV HOME /home/$USER
 
 # Install deps
@@ -21,18 +18,15 @@ RUN mkdir -p $DIR
 WORKDIR $DIR
 COPY . $DIR
 
-RUN ls -la
-
 RUN yarn
 
 # Use node user and take ownership of pertinent dirs
 RUN chown -R $USER:$USER /usr/src
 RUN chown -R $USER:$USER $HOME
+
 # Set the current user
 USER $USER
 
-RUN ls -la
+EXPOSE 8000
 
-EXPOSE 8080
-
-CMD ["yarn", "start"]
+CMD ["yarn", "prod"]

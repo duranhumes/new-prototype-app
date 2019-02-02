@@ -5,7 +5,7 @@
     "author": "Duran Humes <duranhumes@gmail.com>",
     "license": "MIT",
     "description": "",
-    "main": "build/index.js",
+    "main": "build/src/index.js",
     "scripts": {
         "test": "cross-env NODE_ENV=test npx mocha -r ts-node/register **/*.spec.ts --timeout 10000 --exit",
         "start": "cross-env NODE_ENV=development npx nodemon --exec npx ts-node src/index.ts",
