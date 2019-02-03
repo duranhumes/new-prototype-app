@@ -9,17 +9,9 @@ interface IPagination {
 
 const r = request();
 
-export async function makeCategoriesRequest({
-    page,
-    limit,
-}: {
-    page: number;
-    limit: number;
-}) {
+export async function makeCategoriesRequest() {
     const [response, responseErr] = await promiseWrapper(
-        r.get(
-            `${categoriesEndpoint}?sort=title:asc&limit=${limit}&page=${page}&fields=id,title`
-        )
+        r.get(categoriesEndpoint)
     );
     if (responseErr) {
         console.error(responseErr);

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-// import AtoZListView from 'react-native-atoz-listview';
 
 import { NavigationService } from '../../../services/NavigationService';
 import { Spinner, AZList } from '../../../components';
@@ -12,7 +11,6 @@ import { theme } from '../../../constants';
 interface IState {
     isLoading: boolean;
     categories: IItem[];
-    currentPage: number;
 }
 
 const getFirstLetter = (str: string) => str.charAt(0).toUpperCase();
@@ -35,8 +33,6 @@ export class Base extends React.Component<any, IState> {
     state = {
         isLoading: false,
         categories: [],
-        hasMore: true,
-        currentPage: 1,
     };
 
     handleNavigation = (categoryId: any) => {
@@ -44,41 +40,13 @@ export class Base extends React.Component<any, IState> {
     };
 
     getCategories = async () => {
-        if (this.state.isLoading || !this.state.hasMore) return;
-
         this.setState({ isLoading: true });
 
-        const pagination = {
-            page: this.state.currentPage,
-            limit: 20,
-        };
-
-        const categoriesItems = await makeCategoriesRequest(pagination);
+        const categoriesItems = await makeCategoriesRequest();
         this.setState(state => ({
-            hasMore:
-                [...state.categories, ...categoriesItems].length <
-                pagination.limit * 10,
             categories: [...state.categories, ...categoriesItems],
-            currentPage: state.currentPage + 1,
             isLoading: false,
         }));
-    };
-
-    isCloseToBottom = ({
-        layoutMeasurement,
-        contentOffset,
-        contentSize,
-    }: any) => {
-        return (
-            layoutMeasurement.height + contentOffset.y >=
-            contentSize.height - 100
-        );
-    };
-
-    handleScroll = ({ nativeEvent }: any) => {
-        if (this.isCloseToBottom(nativeEvent) && this.state.hasMore) {
-            this.getCategories();
-        }
     };
 
     renderSectionHeader = (section: any) => {

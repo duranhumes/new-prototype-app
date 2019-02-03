@@ -37,9 +37,7 @@ export class Base extends React.Component<any, IState> {
 
         const eventsItems = await makeEventsRequest(pagination);
         this.setState(state => ({
-            hasMore:
-                [...state.events, ...eventsItems].length <
-                pagination.limit * 10,
+            hasMore: !(eventsItems.length === 0),
             events: [...state.events, ...eventsItems],
             currentPage: state.currentPage + 1,
             isLoading: false,
@@ -53,7 +51,7 @@ export class Base extends React.Component<any, IState> {
     }: any) => {
         return (
             layoutMeasurement.height + contentOffset.y >=
-            contentSize.height - 100
+            contentSize.height - 50
         );
     };
 
@@ -79,7 +77,7 @@ export class Base extends React.Component<any, IState> {
                 )}
                 <View style={styles.events}>
                     <ScrollView
-                        scrollEventThrottle={12}
+                        scrollEventThrottle={6}
                         onScroll={this.handleScroll}>
                         {this.state.events.length > 0 &&
                             this.state.events.map((n: IItem, index) => (

@@ -37,8 +37,7 @@ export class Base extends React.Component<any, IState> {
 
         const newsItems = await makeNewsRequest(pagination);
         this.setState(state => ({
-            hasMore:
-                [...state.news, ...newsItems].length < pagination.limit * 10,
+            hasMore: !(newsItems.length === 0),
             news: [...state.news, ...newsItems],
             currentPage: state.currentPage + 1,
             isLoading: false,
@@ -52,7 +51,7 @@ export class Base extends React.Component<any, IState> {
     }: any) => {
         return (
             layoutMeasurement.height + contentOffset.y >=
-            contentSize.height - 100
+            contentSize.height - 50
         );
     };
 
@@ -78,7 +77,7 @@ export class Base extends React.Component<any, IState> {
                 )}
                 <View style={styles.news}>
                     <ScrollView
-                        scrollEventThrottle={12}
+                        scrollEventThrottle={6}
                         onScroll={this.handleScroll}>
                         {this.state.news.length > 0 &&
                             this.state.news.map((n: IItem, index) => (

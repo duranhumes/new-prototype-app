@@ -20,7 +20,9 @@ export function Card({ data, handleNavigation }: ICard) {
                 <Text numberOfLines={1} style={styles.cardTitle}>
                     {data.title}
                 </Text>
-                {data.address && <Text numberOfLines={1}>{data.address}</Text>}
+                {data.address !== undefined && data.address.trim() !== '' && (
+                    <Text numberOfLines={1}>{data.address}</Text>
+                )}
             </View>
         </TouchableHighlight>
     );

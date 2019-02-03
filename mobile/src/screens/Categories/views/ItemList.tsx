@@ -43,15 +43,13 @@ export class ItemList extends React.Component<IProps, IState> {
             limit: 20,
         };
 
-        const listingItems = await makeListingsFromCategoryRequest(
+        const results = await makeListingsFromCategoryRequest(
             this.props.categoryId,
             pagination
         );
-        const sortedListItems = sortListByTitle(listingItems);
+        const sortedListItems = sortListByTitle(results);
         this.setState(state => ({
-            hasMore:
-                [...state.listings, ...sortedListItems].length <
-                pagination.limit * 10,
+            hasMore: !(sortedListItems.length === 0),
             listings: [...state.listings, ...sortedListItems],
             currentPage: state.currentPage + 1,
             isLoading: false,
@@ -80,6 +78,7 @@ export class ItemList extends React.Component<IProps, IState> {
     }
 
     render() {
+        console.log({ more: this.state.hasMore });
         return (
             <View style={styles.container}>
                 <ScrollView
