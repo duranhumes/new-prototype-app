@@ -1,5 +1,13 @@
 version: '3.5'
 services:
+    redis:
+        container_name: redis
+        image: redis:5
+        restart: unless-stopped
+        volumes:
+            - ./data/redis:/data
+        ports:
+            - '6379:6379'
     api:
         container_name: api
         restart: unless-stopped

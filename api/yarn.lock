@@ -171,13 +171,6 @@
   resolved "https://registry.yarnpkg.com/@types/expect/-/expect-1.20.3.tgz#a99d059ace4bd051332faf03f5b4b4266149a501"
   integrity sha512-g0+CQosizg1hjNn06fKB2tEvS5kExrvVOkIfsGuIRfsQ/A9u/Xjp/6/czJVyLuCYdkmMbplDUXvQW+YjBQK7dA==
 
-"@types/express-rate-limit@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@types/express-rate-limit/-/express-rate-limit-3.3.0.tgz#fb87590b37f19629adcec8774c7a75049a4d1c36"
-  integrity sha512-/PmN34aFHxcYwu/BALxFPnLAtUxRjhWFX7baIzaWJ85Mt2l/akj9apACvyQW+qnkxzZanWSy23POX42vHHCsNg==
-  dependencies:
-    "@types/express" "*"
-
 "@types/express-serve-static-core@*":
   version "4.16.1"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.16.1.tgz#35df7b302299a4ab138a643617bd44078e74d44e"
@@ -878,11 +871,6 @@ cliui@^4.0.0:
     strip-ansi "^4.0.0"
     wrap-ansi "^2.0.0"
 
-clone@^1.0.2:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
-  integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
-
 co@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/co/-/co-4.6.0.tgz#6ea6bdf3d853ae54ccb8e47bfa0bf3f9031fb184"
@@ -1183,13 +1171,6 @@ deepmerge@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.1.1.tgz#e862b4e45ea0555072bf51e7fd0d9845170ae768"
   integrity sha512-urQxA1smbLZ2cBbXbaYObM1dJ82aJ2H57A1C/Kklfh/ZN1bgH4G/n5KWhdNfOK11W98gqZfyYj7W4frJJRwA2w==
-
-defaults@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/defaults/-/defaults-1.0.3.tgz#c656051e9817d9ff08ed881477f3fe4019f3ef7d"
-  integrity sha1-xlYFHpgX2f8I7YgUd/P+QBnz730=
-  dependencies:
-    clone "^1.0.2"
 
 define-property@^0.2.5:
   version "0.2.5"
@@ -1501,13 +1482,6 @@ expect-ct@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/expect-ct/-/expect-ct-0.1.1.tgz#de84476a2dbcb85000d5903737e9bc8a5ba7b897"
   integrity sha512-ngXzTfoRGG7fYens3/RMb6yYoVLvLMfmsSllP/mZPxNHgFq41TmPSLF/nLY7fwoclI2vElvAmILFWGUYqdjfCg==
-
-express-rate-limit@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-3.3.2.tgz#c5b2fc770d533878ce01a5dbbfadca340f3b8915"
-  integrity sha512-JZnnTf6ZX9ntQalCZiPHsOG9zhxyRGqfaur+WD4yIcdqzf5FJQao5dmxXbWHk093K8WRSYwNwnzkFXVYnBNudg==
-  dependencies:
-    defaults "^1.0.3"
 
 express-validator@^5.3.1:
   version "5.3.1"
@@ -3541,10 +3515,10 @@ prepend-http@^1.0.1:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
   integrity sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=
 
-prettier@^1.16.3:
-  version "1.16.3"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.16.3.tgz#8c62168453badef702f34b45b6ee899574a6a65d"
-  integrity sha512-kn/GU6SMRYPxUakNXhpP0EedT/KmaPzr0H5lIsDogrykbaxOpOfAFfk5XA7DZrJyMAv1wlMV3CPcZruGXVVUZw==
+prettier@^1.16.4:
+  version "1.16.4"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.16.4.tgz#73e37e73e018ad2db9c76742e2647e21790c9717"
+  integrity sha512-ZzWuos7TI5CKUeQAtFd6Zhm2s6EpAD/ZLApIhsF9pRvRtM1RFo61dM/4MSRUA0SuLugA/zgrZD8m0BaY46Og7g==
 
 process-nextick-args@~2.0.0:
   version "2.0.0"
@@ -3622,6 +3596,11 @@ range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
   integrity sha1-9JvmtIeJTdxA3MlKMi9hEJLgDV4=
+
+rate-limiter-flexible@^0.22.1:
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/rate-limiter-flexible/-/rate-limiter-flexible-0.22.1.tgz#573d44900d9fbf726a7d95ad4de8d14518c7d249"
+  integrity sha512-ZRsM9T5vIxwwqqTHiSlyC8W28gErPzmCKm/dPrLKITkuHTpPX/j8zQuGRCgDeiaHRPo0qWfTMwJIFRw2rTAToQ==
 
 raw-body@2.3.3, raw-body@^2.2.0:
   version "2.3.3"
