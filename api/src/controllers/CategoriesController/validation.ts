@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { query, validationResult } from 'express-validator/check';
+import { param, validationResult } from 'express-validator/check';
 
 import { code422 } from '../../utils/httpMessages';
 
 export const validationRules = {
     getListingsFromCategoryId: [
-        query('categoryId')
+        param('categoryId')
             .not()
             .isEmpty()
             .trim()

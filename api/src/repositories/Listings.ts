@@ -1,4 +1,4 @@
-import { getManager, EntityManager, In } from 'typeorm';
+import { getManager, EntityManager } from 'typeorm';
 
 import { ListingsEntity } from '../entities';
 import { IRepository } from './IRepository';
@@ -121,8 +121,17 @@ export class ListingRepository implements IRepository<ListingsEntity> {
         });
     };
 
-    findListingsByCategoryId = (categoryId: number, params: object = {}) => {
-        return new Promise<ListingsEntity[]>(async (resolve, reject) => {
+    findListingsByCategoryId = (
+        categoryId: number,
+        params: { [key: string]: any } = {}
+    ) => {
+        return new Promise<any[]>(async (resolve, reject) => {
+            const entityMetadata = this.manager.getRepository(ListingsEntity)
+                .metadata;
+            const tableName = entityMetadata.tableName;
+            const columnNames = Object.keys(entityMetadata.propertiesMap).join(
+                ', '
+            );
             const pivotTableName = 'items_to_categories';
 
             const [
@@ -131,7 +140,7 @@ export class ListingRepository implements IRepository<ListingsEntity> {
             ] = await promiseWrapper(
                 this.manager.query(
                     `SELECT item AS listingId FROM \`${pivotTableName}\` WHERE \`category\` = ?`,
-                    [categoryId]
+                    [Number(categoryId)]
                 )
             );
             if (listingIdsFromCategoryErr) {
@@ -143,15 +152,28 @@ export class ListingRepository implements IRepository<ListingsEntity> {
                 });
             }
 
-            if (!listingIdsFromCategory || isEmpty(listingIdsFromCategory)) {
+            const listingIds = listingIdsFromCategory.map(
+                ({ listingId }: { listingId: number }) => Number(listingId)
+            );
+
+            if (!listingIds || isEmpty(listingIds)) {
                 return resolve([]);
             }
 
+            /**
+             * This can definitely be improved,
+             * couldn't find a working answer with
+             * just typeorm which would have kept this
+             * cleaner with the sorting and pagination.
+             */
+            const { take, skip, order } = params;
+            const sortColumnName = Object.keys(order)[0];
+            const sortDirection = Object.values(order)[0];
             const [listings, listingsErr] = await promiseWrapper(
-                this.manager.find(ListingsEntity, {
-                    ...params,
-                    where: { id: In([listingIdsFromCategory]) },
-                })
+                this.manager.query(
+                    `SELECT ${columnNames} FROM \`${tableName}\` WHERE \`id\` IN (?) ORDER BY ? ? LIMIT ? OFFSET ?`,
+                    [listingIds, sortColumnName, sortDirection, take, skip]
+                )
             );
             if (listingsErr) {
                 logging.error(listingsErr);
@@ -159,23 +181,9 @@ export class ListingRepository implements IRepository<ListingsEntity> {
                 return reject({ code: 500, message: listingsErr.message });
             }
 
-            const [count, countErr] = await promiseWrapper(
-                this.manager.count(ListingsEntity, {
-                    ...params,
-                    where: { id: In([listingIdsFromCategory]) },
-                })
-            );
-            if (countErr) {
-                logging.error(countErr);
+            const totalListingsForCategory = listingIds.length;
 
-                return reject({ code: 500, message: countErr.message });
-            }
-
-            if (!listings || isEmpty(listings)) {
-                return resolve([]);
-            }
-
-            return resolve([listings, count]);
+            return resolve([listings, totalListingsForCategory]);
         });
     };
 }

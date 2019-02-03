@@ -106,7 +106,7 @@ class Controller {
 
         const sort = createSortObject(sortStr);
         const query = { ...pagination, ...sort };
-        const { categoryId } = params;
+        const { categoryId } = req.params;
 
         const [[listings, totalCount], listingsErr] = await promiseWrapper(
             this.listingsRepo.findListingsByCategoryId(categoryId, query)
