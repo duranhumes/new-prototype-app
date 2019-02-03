@@ -182,7 +182,7 @@ export function createPaginationObject(params: {
     if (params.limit) {
         if (Number(params.limit) > 0) {
             Object.assign(pagination, {
-                take: params.limit,
+                take: Number(params.limit),
             });
         }
 
@@ -196,7 +196,7 @@ export function createPaginationObject(params: {
 
     if (params.page && Number(params.page) > 0) {
         Object.assign(pagination, {
-            skip: pagination.take * (params.page - 1),
+            skip: Number(pagination.take * (params.page - 1)),
         });
     }
 
