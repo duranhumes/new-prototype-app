@@ -41,8 +41,8 @@ class Controller {
         const params = req.query;
         const url = formatURL(req);
         const pagination = createPaginationObject({
-            limit: params.limit,
-            page: params.page,
+            limit: Number(escapeString(params.limit)),
+            page: Number(escapeString(params.page)),
         });
         const links = createLinksObject(url, pagination);
         // Replace api url names with actual db column names
@@ -97,8 +97,8 @@ class Controller {
         const params = req.query;
         const url = formatURL(req);
         const pagination = createPaginationObject({
-            limit: params.limit,
-            page: params.page,
+            limit: Number(escapeString(params.limit)),
+            page: Number(escapeString(params.page)),
         });
         const links = createLinksObject(url, pagination);
         // Replace api url names with actual db column names
