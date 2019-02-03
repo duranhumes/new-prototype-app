@@ -19,7 +19,7 @@ interface IProps {
 }
 
 const sortListByTitle = (list: any[]) =>
-    list.sort((a, b) => a.title.localeCompare(b.title));
+    [...list].sort((a, b) => a.title.localeCompare(b.title));
 
 export class ItemList extends React.Component<IProps, IState> {
     state = {
@@ -78,7 +78,6 @@ export class ItemList extends React.Component<IProps, IState> {
     }
 
     render() {
-        console.log({ more: this.state.hasMore });
         return (
             <View style={styles.container}>
                 <ScrollView

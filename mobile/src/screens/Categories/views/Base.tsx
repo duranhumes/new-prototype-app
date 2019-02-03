@@ -15,7 +15,7 @@ interface IState {
 
 const getFirstLetter = (str: string) => str.charAt(0).toUpperCase();
 const formatList = (list: IItem[]) => {
-    const sortedList = list.sort((a, b) => a.title.localeCompare(b.title));
+    const sortedList = [...list].sort((a, b) => a.title.localeCompare(b.title));
 
     return sortedList.reduce((before: object, current: IItem) => {
         const letter = getFirstLetter(current.title);
