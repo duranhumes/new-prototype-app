@@ -48,8 +48,8 @@ export class SelectForm extends React.Component<ISelectForm, any> {
                             label: 'Select a category...',
                             value: null,
                         }}
-                        items={categories.map(({ id, category }: any) => ({
-                            label: category,
+                        items={categories.map(({ id, title }: any) => ({
+                            label: title,
                             value: id,
                         }))}
                         onValueChange={categoryChange}

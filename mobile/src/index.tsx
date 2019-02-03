@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { UIManager } from 'react-native';
 import {
     createStackNavigator,
     createSwitchNavigator,
@@ -15,6 +16,7 @@ import {
     SearchStack,
     NewsStack,
     EventsStack,
+    CategoriesStack,
 } from './screens';
 
 const TabNavigator = createBottomTabNavigator({
@@ -22,6 +24,7 @@ const TabNavigator = createBottomTabNavigator({
     News: NewsStack,
     Events: EventsStack,
     AroundMe: AroundMeStack,
+    Categories: CategoriesStack,
     Search: SearchStack,
 });
 
@@ -47,6 +50,10 @@ const AppNavigator = createAppContainer(
         }
     )
 );
+
+if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export default class Root extends React.Component {
     render() {

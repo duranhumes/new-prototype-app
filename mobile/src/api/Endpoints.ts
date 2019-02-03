@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000/v1';
+const BASE_URL = 'http://dev2-bahamas.orangecay.com:8000/v1';
 const SEARCH_URL = 'http://search.orangecay.com';
 
 export const healthEndpoint = `${BASE_URL}/_healthz`;
