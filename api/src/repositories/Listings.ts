@@ -157,7 +157,7 @@ export class ListingRepository implements IRepository<ListingsEntity> {
             );
 
             if (!listingIds || isEmpty(listingIds)) {
-                return resolve([]);
+                return resolve([[], 0]);
             }
 
             /**
